@@ -1,0 +1,203 @@
+name: setup
+description: "First-run setup: configure identity, company, voice, tools, and initialize state."
+trigger: manual
+context:
+  policies: [anti-pattern-guards, context-discipline]
+  memory_scopes: []
+  indexes: []
+
+steps:
+  - name: welcome
+    executor: prompt
+    prompt: |
+      Welcome to Chief of Staff — your AI-powered executive operations partner.
+
+      This setup will walk you through configuring your personal instance.
+      We'll cover:
+        1. Your identity and working constraints
+        2. Your company/organization context
+        3. Your communication style preferences
+        4. MCP tool integrations
+
+      After setup, all state files will be initialized and you'll be ready to run
+      your first morning briefing.
+
+      Template files (*.template.yaml) are available in state/config/ for reference.
+    output:
+      type: text
+      key: welcome_ack
+    gate: confirm
+
+  - name: setup-identity
+    executor: prompt
+    prompt: |
+      Let's set up your identity profile. I'll ask you a few questions and write
+      the results to state/config/identity.yaml.
+
+      Please share:
+        - Your full name
+        - Your role/title
+        - Your email address
+        - Meeting hour preferences (start/end times, any no-meeting days)
+        - Maximum meetings per day
+        - Energy patterns: when are your peak hours? Valley hours?
+        - When do you prefer deep work? (morning, afternoon, evening)
+
+      Use the template at state/config/identity.template.yaml for the full schema.
+      After collecting answers, write state/config/identity.yaml with the populated values.
+    reads: [state/config/identity.template.yaml]
+    output:
+      type: file
+      path: state/config/identity.yaml
+      key: identity
+    gate: edit
+
+  - name: setup-company
+    executor: prompt
+    prompt: |
+      Now let's capture your organization context. I'll write the results to
+      state/config/company.yaml.
+
+      Please share:
+        - Company/organization name
+        - Brief description (what the company does)
+        - Stage (seed, series-a, series-b, growth, public, non-profit, etc.)
+        - Industry
+        - Core operating principles (if any)
+        - Key leadership team members (name + role)
+        - Board members (if applicable)
+
+      Use the template at state/config/company.template.yaml for the full schema.
+      After collecting answers, write state/config/company.yaml with the populated values.
+    reads: [state/config/company.template.yaml]
+    output:
+      type: file
+      path: state/config/company.yaml
+      key: company
+    gate: edit
+
+  - name: setup-voice
+    executor: prompt
+    prompt: |
+      Let's define your communication style so drafted messages match your voice.
+      I'll write the results to state/config/voice.yaml.
+
+      Please share:
+        - Your general tone (direct, warm, analytical, diplomatic, etc.)
+        - Default formality level (formal, semi-formal, casual)
+        - Any recurring patterns (e.g., "Uses bullet points for board updates",
+          "Prefers short paragraphs", "Always opens with context")
+        - Optionally, paste 1-2 example messages by context type
+          (board update, team message, investor email, etc.)
+
+      Use the template at state/config/voice.template.yaml for the full schema.
+      After collecting answers, write state/config/voice.yaml with the populated values.
+    reads: [state/config/voice.template.yaml]
+    output:
+      type: file
+      path: state/config/voice.yaml
+      key: voice
+    gate: edit
+
+  - name: setup-tools
+    executor: prompt
+    prompt: |
+      Let's configure your MCP tool integrations. I'll write the results to
+      state/config/tools.yaml.
+
+      Available integrations:
+        - Gmail (email access)
+        - Google Calendar (calendar management)
+        - Slack (team messaging)
+        - Linear (issue tracking)
+        - Notion (knowledge base)
+        - Firecrawl (web scraping)
+        - GitHub (repository access)
+        - Gemini Vision (image analysis — custom MCP)
+
+      For each integration you want to use, you'll need the corresponding MCP
+      server configured in your Claude settings. Which integrations do you have
+      set up and want to enable?
+
+      Use the template at state/config/tools.template.yaml for the full schema.
+      After collecting answers, write state/config/tools.yaml with enabled: true
+      for confirmed integrations.
+    reads: [state/config/tools.template.yaml]
+    output:
+      type: file
+      path: state/config/tools.yaml
+      key: tools
+    gate: edit
+
+  - name: initialize-state
+    executor: prompt
+    prompt: |
+      Initialize all state files with empty schemas. Create each file silently
+      (do not prompt the user). Use the schema comments from the templates below.
+
+      Files to create (only if they don't already exist):
+        - state/memory/memory.yaml (empty entries list with schema comments)
+        - state/domain/goals.yaml (empty goals list with schema comments)
+        - state/domain/tasks.yaml (empty tasks list with schema comments)
+        - state/domain/schedules.yaml (empty schedules list with schema comments)
+        - state/domain/contacts/_index.yaml (empty contacts list with schema comments)
+        - state/domain/projects/_index.yaml (empty projects list with schema comments)
+        - indexes/tags.yaml (empty tags map with header comment)
+        - indexes/entities.yaml (empty entities map with header comment)
+        - indexes/concepts.yaml (empty concepts map with header comment)
+        - indexes/recent.yaml (empty modifications list with schema comments)
+
+      Write each file with the standard schema comments so future operations
+      know the expected structure. Do not prompt the user for any input.
+    output:
+      type: text
+      key: init_result
+
+  - name: create-first-journal
+    executor: prompt
+    prompt: |
+      Create the first session journal entry at:
+        state/journals/YYYY-MM-DD_01.md
+
+      Use today's date. Include:
+        - Header with date and session number
+        - Section: "Setup completed" with summary of configured items
+        - Section: "Identity" — name and role from ${setup-identity.identity}
+        - Section: "Integrations enabled" — list from ${setup-tools.tools}
+        - Section: "Next steps" — suggest running morning-briefing workflow
+    input:
+      identity: ${setup-identity.identity}
+      company: ${setup-company.company}
+      tools: ${setup-tools.tools}
+    output:
+      type: file
+      path: state/journals/
+      key: journal
+
+  - name: setup-complete
+    executor: prompt
+    prompt: |
+      Setup is complete. Present a summary to the user:
+
+      1. **Identity**: Name, role, and key constraints configured
+      2. **Company**: Organization context captured
+      3. **Voice**: Communication style preferences saved
+      4. **Tools**: Which integrations are enabled
+      5. **State**: All state files initialized
+
+      Suggest next actions:
+        - Run the morning briefing: "Let's run the morning briefing"
+        - Add your first goal: "Help me set a goal for this quarter"
+        - Import contacts: "Let's add my key contacts"
+
+      Remind the user that config files can be re-edited at any time by
+      modifying the YAML files directly in state/config/.
+    input:
+      identity: ${setup-identity.identity}
+      company: ${setup-company.company}
+      voice: ${setup-voice.voice}
+      tools: ${setup-tools.tools}
+    output:
+      type: text
+      key: summary
+    gate: display

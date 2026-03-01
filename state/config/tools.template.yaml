@@ -1,3 +1,6 @@
+# TEMPLATE — Copy to tools.yaml and enable your integrations
+# Created by the setup workflow; do not edit this template directly.
+
 # MCP Server & Integration Declarations (E1-E8)
 # All disabled until MCP servers are configured
 

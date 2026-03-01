@@ -3,3 +3,45 @@
 .env.*
 workflows/runs/*/
 *.tmp
+
+# ── User-specific config (generated from *.template.yaml during setup) ──
+state/config/identity.yaml
+state/config/company.yaml
+state/config/voice.yaml
+state/config/tools.yaml
+
+# ── Working memory ──
+state/memory/memory.yaml
+
+# ── Domain state (personal goals, tasks, schedules, contacts, projects) ──
+state/domain/goals.yaml
+state/domain/tasks.yaml
+state/domain/schedules.yaml
+state/domain/contacts/_index.yaml
+state/domain/contacts/*.md
+state/domain/projects/_index.yaml
+state/domain/projects/*.md
+
+# ── Session journals (preserve .gitkeep) ──
+state/journals/*
+!state/journals/.gitkeep
+
+# ── Vault contents (preserve .gitkeep files) ──
+vault/inbox/*
+!vault/inbox/.gitkeep
+vault/projects/*
+!vault/projects/.gitkeep
+vault/areas/*
+!vault/areas/.gitkeep
+vault/resources/*
+!vault/resources/.gitkeep
+vault/archive/*
+!vault/archive/.gitkeep
+vault/attachments/*
+!vault/attachments/.gitkeep
+
+# ── Index data (rebuilt from state) ──
+indexes/tags.yaml
+indexes/entities.yaml
+indexes/concepts.yaml
+indexes/recent.yaml

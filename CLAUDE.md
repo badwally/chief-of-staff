@@ -8,7 +8,7 @@ An AI-powered chief of staff for executive operations. The filesystem is the dat
 |-----------|---------|
 | `state/memory/` | Working memory — cross-session continuity |
 | `state/domain/` | Goals, tasks, contacts, schedules, projects |
-| `state/config/` | User identity, company context, voice, tools, tiers, modes |
+| `state/config/` | User identity, company context, voice, tools, tiers, modes — personal config generated from `*.template.yaml` during setup |
 | `state/journals/` | Session execution logs (append-only) |
 | `vault/` | Knowledge base (PARA: inbox, projects, areas, resources, archive) |
 | `workflows/definitions/` | Declarative workflow YAML files |
@@ -20,6 +20,16 @@ An AI-powered chief of staff for executive operations. The filesystem is the dat
 | `mcp/` | Custom MCP server code |
 | `skills/` | Reference documents |
 
+## Getting Started
+
+New user? After cloning the repository, start Claude in this directory and the session-start protocol will detect that `state/config/identity.yaml` is missing. It will prompt you to run the setup workflow, which walks you through:
+
+1. Configuring your identity, company context, communication voice, and MCP tools
+2. Initializing all state files (goals, tasks, memory, etc.)
+3. Creating your first session journal
+
+Template files (`*.template.yaml`) in `state/config/` show the expected schema for each config file. The setup workflow uses these as a reference. For details, see `docs/setup-guide.md`.
+
 ## Session-Start Protocol
 
 On every session start, execute these steps in order:
@@ -28,7 +38,7 @@ On every session start, execute these steps in order:
 
 2. **Surface tasks.** Read `state/domain/tasks.yaml`. Identify and flag overdue and due-today items.
 
-3. **Check first-run condition.** If `state/domain/goals.yaml` has an empty `goals: []` list, this is a first-run. Prompt the user to run the setup workflow to populate identity, company, and initial goals.
+3. **Check first-run condition.** If `state/config/identity.yaml` does not exist, this is a first-run. Prompt the user to run the setup workflow (`workflows/definitions/setup.yaml`) to configure identity, company, voice, tools, and initialize state files.
 
 4. **Check for upstream updates.** If the project is connected to a remote git repo, check for new commits. Surface any changes to workflows, policies, or config.
 
