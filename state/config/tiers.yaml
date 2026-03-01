@@ -1,0 +1,45 @@
+# Triage & Contact Tier Definitions (P9, P10)
+
+triage_tiers:
+  tier_1:
+    label: "Respond now"
+    description: "Urgent items requiring immediate attention"
+    response_target: "< 1 hour"
+    criteria:
+      - "Direct request from leadership/board"
+      - "Time-sensitive decisions"
+      - "Blocking issues for active projects"
+
+  tier_2:
+    label: "Handle today"
+    description: "Important but not immediate"
+    response_target: "Same business day"
+    criteria:
+      - "Team requests and questions"
+      - "Stakeholder updates needed"
+      - "Scheduled deliverables"
+
+  tier_3:
+    label: "FYI / Queue"
+    description: "Informational or low-priority"
+    response_target: "Within 3 business days"
+    criteria:
+      - "Newsletters and digests"
+      - "Non-urgent updates"
+      - "Reference material"
+
+contact_tiers:
+  tier_1:
+    label: "Inner circle"
+    staleness_threshold_days: 14
+    description: "Key relationships requiring regular engagement"
+
+  tier_2:
+    label: "Active network"
+    staleness_threshold_days: 30
+    description: "Important contacts with moderate engagement needs"
+
+  tier_3:
+    label: "Extended network"
+    staleness_threshold_days: 60
+    description: "Broader contacts checked periodically"

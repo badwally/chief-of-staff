@@ -1,0 +1,43 @@
+# MCP Server & Integration Declarations (E1-E8)
+# All disabled until MCP servers are configured
+
+integrations:
+  gmail:
+    type: mcp
+    server: gmail
+    enabled: false
+
+  google_calendar:
+    type: mcp
+    server: google-calendar
+    enabled: false
+
+  slack:
+    type: mcp
+    server: slack
+    enabled: false
+
+  linear:
+    type: mcp
+    server: linear
+    enabled: false
+
+  notion:
+    type: mcp
+    server: notion
+    enabled: false
+
+  firecrawl:
+    type: mcp
+    server: firecrawl
+    enabled: false
+
+  github:
+    type: mcp
+    server: github
+    enabled: false
+
+  gemini_vision:
+    type: custom
+    path: mcp/gemini-vision
+    enabled: false

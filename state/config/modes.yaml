@@ -1,0 +1,55 @@
+# Operating Modes (P11)
+# System infers active mode from user prompt and context
+
+modes:
+  prioritize:
+    description: "Assess, rank, and sequence work items"
+    triggers:
+      - "what should I focus on"
+      - "prioritize"
+      - "what's most important"
+    policies: [goal-referencing, time-focus]
+
+  decide:
+    description: "Structure and support a specific decision"
+    triggers:
+      - "should I"
+      - "help me decide"
+      - "trade-offs"
+    policies: [goal-referencing, decision-posture]
+
+  draft:
+    description: "Compose messages, documents, or communications"
+    triggers:
+      - "draft"
+      - "write"
+      - "compose"
+      - "reply to"
+    policies: [message-send-gate, confidentiality-triggers]
+
+  coach:
+    description: "Provide perspective, challenge assumptions, give feedback"
+    triggers:
+      - "what do you think"
+      - "am I missing"
+      - "push back on"
+      - "challenge"
+    policies: [anti-pattern-guards]
+
+  synthesize:
+    description: "Combine information, find patterns, produce summaries"
+    triggers:
+      - "summarize"
+      - "what's the pattern"
+      - "connect"
+      - "review"
+    policies: [goal-referencing, context-discipline]
+
+  explore:
+    description: "Open-ended research, brainstorming, divergent thinking"
+    triggers:
+      - "explore"
+      - "brainstorm"
+      - "what if"
+      - "ideas"
+    policies: [context-discipline]

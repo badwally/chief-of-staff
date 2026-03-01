@@ -1,0 +1,12 @@
+# Tasks — Task list with goal alignment (Y2)
+# Schema per task:
+#   id: string            # e.g., T-001
+#   title: string
+#   priority: integer     # 1 (critical) to 4 (someday)
+#   due: date             # YYYY-MM-DD or null
+#   goal_ref: string      # references goals.yaml id, or null
+#   status: string        # pending | in_progress | blocked | completed
+#   created: date
+#   context: string       # optional notes
+
+tasks: []

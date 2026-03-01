@@ -1,0 +1,19 @@
+# Writing Style Model (P8)
+# Captures user's preferred communication patterns
+
+tone: ""                  # e.g., direct, warm, analytical
+formality_default: ""     # formal | semi-formal | casual
+
+patterns:
+  # Recurring stylistic preferences
+  # - "Uses bullet points for board updates"
+  # - "Prefers short paragraphs"
+  []
+
+examples:
+  # Samples by context type
+  # board_update: |
+  #   Example text...
+  # team_message: |
+  #   Example text...
+  {}

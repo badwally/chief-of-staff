@@ -1,0 +1,29 @@
+name: task-review
+description: "Output schema for task review step"
+fields:
+  overdue:
+    type: list
+    items:
+      fields:
+        id: { type: string }
+        title: { type: string }
+        priority: { type: integer }
+        due: { type: date }
+        goal_ref: { type: string }
+  due_today:
+    type: list
+    items:
+      fields:
+        id: { type: string }
+        title: { type: string }
+        priority: { type: integer }
+        goal_ref: { type: string }
+  approaching:
+    type: list
+    items:
+      fields:
+        id: { type: string }
+        title: { type: string }
+        priority: { type: integer }
+        due: { type: date }
+        goal_ref: { type: string }

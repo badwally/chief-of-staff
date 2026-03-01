@@ -1,0 +1,15 @@
+name: inbox-scan
+description: "Output schema for inbox scan step"
+fields:
+  tier_1_items:
+    type: list
+    items:
+      fields:
+        sender: { type: string }
+        subject: { type: string }
+        urgency_reason: { type: string }
+        received: { type: timestamp }
+  count_by_tier:
+    type: map
+    keys: { type: string }
+    values: { type: integer }

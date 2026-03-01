@@ -1,0 +1,17 @@
+name: goal-review
+description: "Output schema for goal review step"
+fields:
+  goals:
+    type: list
+    items:
+      fields:
+        id: { type: string }
+        title: { type: string }
+        progress: { type: float }
+        status: { type: string }
+  stalled_goals:
+    type: list
+    items: { type: string }
+  alignment_gaps:
+    type: list
+    items: { type: string }

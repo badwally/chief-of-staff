@@ -1,0 +1,19 @@
+# Company / Organization Context (P7)
+# Fill in during setup workflow
+
+name: ""
+description: ""
+stage: ""                 # e.g., seed, series-a, growth, public
+industry: ""
+
+principles: []            # core operating principles
+
+leadership:
+  # - name: ""
+  #   role: ""
+  []
+
+board:
+  # - name: ""
+  #   role: ""
+  []

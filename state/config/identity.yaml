@@ -1,0 +1,18 @@
+# User Identity (P6)
+# Fill in during setup workflow
+
+name: ""
+role: ""
+email: ""
+
+constraints:
+  meeting_hours:
+    start: "09:00"
+    end: "17:00"
+  no_meeting_days: []     # e.g., [Wednesday]
+  max_meetings_per_day: 6
+
+energy_patterns:
+  peak_hours: []          # e.g., ["09:00-12:00"]
+  valley_hours: []        # e.g., ["14:00-15:00"]
+  preferred_deep_work: "" # e.g., "morning"

@@ -1,0 +1,14 @@
+# Goals — Quarterly OKRs with progress tracking (Y1)
+# Schema per goal:
+#   id: string            # e.g., G-001
+#   title: string
+#   quarter: string       # e.g., 2026-Q1
+#   key_results:
+#     - description: string
+#       progress: float   # 0.0 to 1.0
+#       target: string
+#   status: string        # active | paused | completed | abandoned
+#   created: date
+#   updated: date
+
+goals: []

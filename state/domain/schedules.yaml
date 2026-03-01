@@ -1,0 +1,11 @@
+# Schedules — Declared automations (Y3)
+# Schema per schedule:
+#   id: string
+#   name: string
+#   frequency: string     # daily | weekly | monthly | custom cron
+#   workflow: string      # workflow definition to trigger
+#   enabled: boolean
+#   last_run: datetime
+#   next_run: datetime
+
+schedules: []

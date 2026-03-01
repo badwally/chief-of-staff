@@ -1,0 +1,8 @@
+# Chronological Index — rolling 30-day file modification log
+# Schema per modification:
+#   file: string          # path to modified file
+#   modified: datetime    # ISO 8601
+#   action: string        # created | updated | archived
+#   summary: string       # brief description of change
+
+modifications: []

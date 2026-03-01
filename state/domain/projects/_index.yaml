@@ -1,0 +1,12 @@
+# Project Registry
+# Schema per project:
+#   id: string
+#   name: string
+#   status: string        # active | paused | completed | archived
+#   vault_folder: string  # path under vault/projects/
+#   goal_ref: string      # references goals.yaml id
+#   contacts: [string]    # related contact ids
+#   created: date
+#   updated: date
+
+projects: []

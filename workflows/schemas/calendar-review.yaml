@@ -1,0 +1,24 @@
+name: calendar-review
+description: "Output schema for calendar review step"
+fields:
+  events:
+    type: list
+    items:
+      fields:
+        title: { type: string }
+        start: { type: timestamp }
+        end: { type: timestamp }
+        attendees: { type: list, items: { type: string } }
+  conflicts:
+    type: list
+    items: { type: string }
+  hard_constraint_violations:
+    type: list
+    items: { type: string }
+  available_blocks:
+    type: list
+    items:
+      fields:
+        start: { type: timestamp }
+        end: { type: timestamp }
+        duration_minutes: { type: integer }
