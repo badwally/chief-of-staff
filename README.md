@@ -175,6 +175,51 @@ Activate heightened awareness when content involves: compensation, termination/P
 ### Context Discipline (P18)
 Minimize context window bloat. Targeted queries over broad reads. Summarize retrieved information. Batch related reads. State rationale before loading additional context. Prune aggressively.
 
+## Voice Interface (Optional)
+
+Voice input and output are available as a supplement to the text CLI when VoiceMode is enabled. Voice is never required — the system functions identically without it.
+
+### How It Works
+
+**Input:** VoiceMode uses Whisper for speech-to-text. Spoken input is transcribed and treated identically to typed input — all workflows, mode inference, and policies apply unchanged. Users can speak "yes" or "approved" at approval gates instead of typing.
+
+**Output:** Claude selectively speaks responses per `policies/voice-output.md`. Voice always supplements text — it never replaces it. Text output is always displayed regardless of voice state.
+
+| Context | Voice | Text |
+|---------|-------|------|
+| Briefing synthesis and summaries | Speak | Also display |
+| Task review overviews | Speak | Also display |
+| Short confirmations | Speak | Also display |
+| Drafted messages at `send` gates | Speak summary only | Display full draft |
+| Confidential content | Silent | Text only |
+| Code, YAML, structured data | Silent | Text only |
+| Content at `edit` gates | Silent | Text only |
+
+### Setup
+
+VoiceMode requires system dependencies and a Claude Code plugin:
+
+```bash
+brew install portaudio ffmpeg
+claude plugin marketplace add mbailey/voicemode
+claude plugin install voicemode@voicemode
+```
+
+Then enable in `state/config/tools.yaml`:
+
+```yaml
+voicemode:
+  type: mcp
+  server: voicemode
+  enabled: true
+```
+
+Activate in a session with `/voicemode:converse`.
+
+### mcp-tts (Deferred)
+
+[mcp-tts](https://github.com/blacktop/mcp-tts) is declared in `tools.yaml` as a secondary TTS provider with additional backends (macOS `say`, ElevenLabs, Google, OpenAI). It's disabled by default and intended for evaluation after VoiceMode is established.
+
 ## Triage Tiers
 
 Incoming work is classified into three response tiers:
@@ -268,6 +313,8 @@ Chief of Staff supports optional MCP server integrations. All are disabled by de
 | Firecrawl | `firecrawl` | Web content capture |
 | GitHub | `github` | Repository access |
 | Gemini Vision | Custom (`mcp/gemini-vision`) | Image analysis |
+| VoiceMode | `voicemode` | Voice input (Whisper STT) and output (Kokoro/OpenAI TTS) |
+| mcp-tts | `mcp-tts` | Multi-backend TTS: macOS `say`, ElevenLabs, Google, OpenAI (deferred) |
 
 Workflows degrade gracefully when an integration is unavailable — optional steps are skipped with fallback notes for downstream steps.
 
