@@ -114,6 +114,7 @@ steps:
         - Firecrawl (web scraping)
         - GitHub (repository access)
         - Gemini Vision (image analysis — custom MCP)
+        - Dreamhost Email (IMAP/SMTP email — requires: claude mcp add --scope user email -- uvx mcp-email-server@latest stdio, then configure ~/.config/zerolib/mcp_email_server/config.toml)
         - VoiceMode (voice input via Whisper + voice output via Kokoro/OpenAI TTS — requires: claude plugin marketplace add mbailey/voicemode, brew install portaudio ffmpeg)
         - mcp-tts (multi-backend text-to-speech: macOS say, ElevenLabs, Google, OpenAI — requires: go install github.com/blacktop/mcp-tts@latest)
 

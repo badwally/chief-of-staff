@@ -45,6 +45,12 @@ integrations:
     path: mcp/gemini-vision
     enabled: false
 
+  dreamhost_email:
+    type: mcp
+    server: email
+    enabled: false
+    notes: "IMAP/SMTP email via ai-zerolab/mcp-email-server. Install: uvx mcp-email-server@latest stdio. Config: ~/.config/zerolib/mcp_email_server/config.toml"
+
   voicemode:
     type: mcp
     server: voicemode
