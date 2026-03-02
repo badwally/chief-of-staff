@@ -77,6 +77,18 @@ These 6 policies are loaded at session start and apply to ALL interactions:
 | Confidentiality Triggers | `policies/confidentiality-triggers.md` | Flag sensitive content, check channel appropriateness |
 | Context Discipline | `policies/context-discipline.md` | Minimize context bloat, targeted queries, summarize results |
 
+## Voice Interface (Optional)
+
+When VoiceMode is enabled in `state/config/tools.yaml`, voice input and output are available as a supplement to the text CLI. Voice is never required — the system functions identically without it.
+
+**Activation:** User invokes `/voicemode:converse` to enter voice conversation mode.
+
+**Input:** Spoken input is transcribed to text via Whisper. Treat it identically to typed input. All workflows, mode inference, and policies apply unchanged.
+
+**Output:** Use voice output selectively per `policies/voice-output.md`. Always display text alongside speech. Never speak confidential content, code, or structured data.
+
+**Policy loading:** When VoiceMode is enabled, load `policies/voice-output.md` alongside the 6 always-on policies at session start.
+
 ## Workflow Execution Protocol
 
 When running a workflow:
