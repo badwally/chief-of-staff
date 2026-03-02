@@ -44,3 +44,15 @@ integrations:
     type: custom
     path: mcp/gemini-vision
     enabled: false
+
+  voicemode:
+    type: mcp
+    server: voicemode
+    enabled: false
+    notes: "Voice input (Whisper STT) and output (Kokoro/OpenAI TTS). Install plugin first: claude plugin marketplace add mbailey/voicemode"
+
+  mcp_tts:
+    type: mcp
+    server: mcp-tts
+    enabled: false
+    notes: "Multi-backend TTS (macOS say, ElevenLabs, Google, OpenAI). Install: go install github.com/blacktop/mcp-tts@latest"
