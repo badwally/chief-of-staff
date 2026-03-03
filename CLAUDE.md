@@ -1,3 +1,7 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
 # Chief of Staff
 
 An AI-powered chief of staff for executive operations. The filesystem is the database — YAML and Markdown files are the persistence layer, version-controlled with git, human-readable, and debuggable with standard tools.
@@ -29,6 +33,49 @@ New user? After cloning the repository, start Claude in this directory and the s
 3. Creating your first session journal
 
 Template files (`*.template.yaml`) in `state/config/` show the expected schema for each config file. The setup workflow uses these as a reference. For details, see `docs/setup-guide.md`.
+
+## Commands
+
+### Validate YAML
+```bash
+python3 -c "import yaml; yaml.safe_load(open('state/config/tools.yaml'))"
+python3 -c "import yaml, glob; [yaml.safe_load(open(f)) for f in glob.glob('state/config/*.yaml')]"
+```
+
+### Run a Workflow
+No CLI runner — workflows are executed by Claude following the Workflow Execution Protocol below.
+To start: read the workflow YAML from `workflows/definitions/`, then execute steps sequentially.
+
+### Check State
+Key files to read for current state:
+- `state/memory/memory.yaml` — working memory
+- `state/domain/tasks.yaml` — active tasks
+- `state/domain/goals.yaml` — active goals
+- `state/config/tools.yaml` — enabled integrations
+
+## Active Integrations
+
+Check `state/config/tools.yaml` for current state. Currently enabled:
+
+| Integration | Server | Notes |
+|-------------|--------|-------|
+| Gmail | `mcp__claude_ai_Gmail` | Claude AI built-in. Authorize at claude.ai Settings > Integrations. |
+| Notion | `notion` | Knowledge base queries and page creation |
+| Dreamhost Email | `email` | IMAP/SMTP for andrew@vicara.io. Config: `~/.config/zerolib/mcp_email_server/config.toml` |
+| VoiceMode | `voicemode` | Whisper STT + Kokoro/OpenAI TTS |
+| iMessage | `mcp/imessage` | Custom MCP. Requires Full Disk Access. |
+
+Integrations follow the message-send-gate policy (P4) — never send any message without explicit user approval.
+
+## Skills
+
+Skills are specialized workflows triggered by keyword matching. Defined in `state/config/modes.yaml` under the `skills` key.
+
+| Skill | Triggers | Workflow |
+|-------|----------|---------|
+| Substack Digest | "substack digest", "newsletters", "what did I miss" | `workflows/definitions/substack-digest.yaml` |
+
+Skill reference docs live in `skills/<skill-name>/SKILL.md`.
 
 ## Session-Start Protocol
 
@@ -76,6 +123,14 @@ These 6 policies are loaded at session start and apply to ALL interactions:
 | Message Send Gate | `policies/message-send-gate.md` | Never send any message without explicit approval |
 | Confidentiality Triggers | `policies/confidentiality-triggers.md` | Flag sensitive content, check channel appropriateness |
 | Context Discipline | `policies/context-discipline.md` | Minimize context bloat, targeted queries, summarize results |
+
+**Conditional policies** (loaded when their condition is met):
+
+| Policy | File | Condition |
+|--------|------|-----------|
+| Voice Output | `policies/voice-output.md` | `voicemode.enabled == true` in tools.yaml |
+
+**Local environment:** Machine-specific config (PATH, SSL certs) belongs in `.claude.local.md`, not here.
 
 ## Voice Interface (Optional)
 
