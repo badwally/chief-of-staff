@@ -294,6 +294,7 @@ chief-of-staff/
 ├── docs/                          #   Architecture spec + setup guide
 ├── scripts/                       #   Shell utilities
 ├── mcp/                           #   Custom MCP server code
+│   └── imessage/                  #     iMessage read/search/send (macOS)
 └── skills/                        #   Reference documents
 ```
 
@@ -313,6 +314,7 @@ Chief of Staff supports optional MCP server integrations. All are disabled by de
 | Firecrawl | `firecrawl` | Web content capture |
 | GitHub | `github` | Repository access |
 | Gemini Vision | Custom (`mcp/gemini-vision`) | Image analysis |
+| iMessage | Custom (`mcp/imessage`) | Read, search, send messages, contact lookup, file attachments. Requires Full Disk Access. |
 | VoiceMode | `voicemode` | Voice input (Whisper STT) and output (Kokoro/OpenAI TTS) |
 | mcp-tts | `mcp-tts` | Multi-backend TTS: macOS `say`, ElevenLabs, Google, OpenAI (deferred) |
 
