@@ -1,0 +1,21 @@
+name: newsletter-digest
+description: "Output schema for Substack newsletter digest"
+fields:
+  topic_groups:
+    type: list
+    items:
+      fields:
+        topic: { type: string }
+        newsletters:
+          type: list
+          items:
+            fields:
+              publication: { type: string }
+              headline: { type: string }
+              summary: { type: string }
+              message_id: { type: string }
+              received: { type: timestamp }
+  total_count:
+    type: integer
+  skipped_count:
+    type: integer

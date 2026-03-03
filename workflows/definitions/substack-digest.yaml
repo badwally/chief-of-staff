@@ -1,0 +1,91 @@
+name: substack-digest
+description: "Fetch and display a topic-grouped digest of Substack newsletters from the last 24 hours."
+trigger: manual
+context:
+  policies: [goal-referencing, context-discipline]
+  memory_scopes: [global]
+  indexes: [recent]
+
+steps:
+  - name: fetch-newsletters
+    executor: prompt
+    optional: true
+    fallback: "Gmail unavailable — authorize at Claude Settings > Integrations > Gmail, then retry."
+    prompt: |
+      Search Gmail for Substack newsletters from the last 24 hours.
+      Query: from:substack.com newer_than:1d
+
+      For each message:
+      1. Read the message to extract publication name, headline, and a 1-line summary
+      2. Skip billing, account, or subscription-management emails
+      3. Record the message_id, publication, headline, summary, and received timestamp
+
+      After processing all messages, group them by topic using 4-6 broad labels
+      (e.g., Tech/AI, Geopolitics, Finance, Culture, Science, Business Strategy).
+      Assign each newsletter to the most fitting topic.
+    tools: [gmail.search, gmail.read_message]
+    output:
+      type: structured
+      schema: newsletter-digest
+      key: digest
+
+  - name: display-digest
+    executor: prompt
+    prompt: |
+      Format the newsletter digest for display.
+
+      Structure:
+      - Header: "Substack Digest — {date}" with total count
+      - One section per topic group, with topic as heading
+      - Under each topic: publication name, headline, and 1-line summary
+      - Footer: "To read a full article, say 'read the [publication] piece'"
+      - If skipped_count > 0, note how many billing/account emails were skipped
+
+      Keep it scannable — this is a headline digest, not full articles.
+    input:
+      digest: ${fetch-newsletters.digest}
+    output:
+      type: text
+      key: formatted_digest
+    gate: display
+
+  - name: save-to-obsidian
+    executor: prompt
+    prompt: |
+      Write the formatted digest to the Obsidian vault as a daily note.
+
+      File path: /Users/andrewgrant/obsidian/Substack/{YYYY-MM-DD}.md
+      (Use today's date for the filename.)
+
+      Format the file as clean Obsidian-flavored markdown:
+      - YAML frontmatter: date, total_count, tags: [substack, digest]
+      - Body: the formatted digest from the previous step
+      - Each publication name as a [[wikilink]] for future cross-referencing
+      - If the file already exists for today, overwrite it (re-run scenario)
+    input:
+      formatted_digest: ${display-digest.formatted_digest}
+      digest: ${fetch-newsletters.digest}
+    output:
+      type: text
+      key: obsidian_path
+
+  - name: on-demand-read
+    executor: prompt
+    optional: true
+    prompt: |
+      The user wants to read a specific newsletter in full.
+      Use the message_id from the digest to fetch the full message content.
+
+      Produce a structured summary:
+      - Core argument (2-3 sentences)
+      - Key claims or takeaways (bullet list)
+      - Goal relevance: cross-reference against active goals in goals.yaml
+        and note which goals this piece relates to (if any)
+    input:
+      digest: ${fetch-newsletters.digest}
+    reads: [state/domain/goals.yaml]
+    tools: [gmail.read_message]
+    output:
+      type: text
+      key: article_summary
+    gate: display

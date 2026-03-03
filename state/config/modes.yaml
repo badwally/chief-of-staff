@@ -43,6 +43,9 @@ modes:
       - "what's the pattern"
       - "connect"
       - "review"
+      - "substack digest"
+      - "newsletters"
+      - "what did I miss"
     policies: [goal-referencing, context-discipline]
 
   explore:
@@ -53,3 +56,9 @@ modes:
       - "what if"
       - "ideas"
     policies: [context-discipline]
+
+skills:
+  substack-digest:
+    file: skills/substack-digest/SKILL.md
+    workflow: workflows/definitions/substack-digest.yaml
+    triggers: [substack digest, newsletters, substack, what did I miss, morning newsletters]

@@ -72,19 +72,47 @@ steps:
       schema: inbox-scan
       key: inbox
 
+  - name: review-newsletters
+    executor: prompt
+    optional: true
+    fallback: "Skip newsletters if Gmail unavailable"
+    prompt: |
+      Quick scan of Substack newsletters from the last 24 hours.
+      Query: from:substack.com newer_than:1d
+
+      For each message, extract: publication name, headline, 1-line summary,
+      message_id, and received timestamp. Skip billing/account emails.
+      Group by topic (4-6 broad labels).
+
+      Keep this lightweight — headline-level scan only, no deep summaries.
+
+      After scanning, write the digest to the Obsidian vault:
+      File path: /Users/andrewgrant/obsidian/Substack/{YYYY-MM-DD}.md
+      Format: YAML frontmatter (date, total_count, tags: [substack, digest]),
+      topic-grouped headlines with [[wikilinked]] publication names.
+      If the file already exists, overwrite it.
+    tools: [gmail.search]
+    output:
+      type: structured
+      schema: newsletter-digest
+      key: newsletters
+
   - name: synthesize-briefing
     executor: prompt
     prompt: |
       Synthesize all inputs into a single-screen morning briefing.
       Lead with the top 1-3 focus items for the day.
       Include: calendar summary, critical tasks, goal status, urgent inbox items.
+      If newsletters are available, add a "Reading Queue" section with the top
+      3-4 goal-relevant headlines from Substack newsletters.
       End with a focus recommendation.
-      If optional inputs (time, inbox) are unavailable, omit those sections gracefully.
+      If optional inputs (time, inbox, newsletters) are unavailable, omit those sections gracefully.
     input:
       calendar: ${review-calendar.calendar}
       tasks: ${review-tasks.tasks}
       goals: ${check-goals.goals}
       inbox: ${scan-inbox.inbox}
+      newsletters: ${review-newsletters.newsletters}
     output:
       type: text
       key: briefing
