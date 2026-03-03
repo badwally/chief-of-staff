@@ -2,6 +2,7 @@
 .env
 .env.*
 .worktrees/
+.claude.local.md
 workflows/runs/*/
 *.tmp
 
