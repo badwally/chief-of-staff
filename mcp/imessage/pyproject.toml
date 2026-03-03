@@ -1,0 +1,26 @@
+[project]
+name = "imessage-mcp"
+version = "0.1.0"
+description = "MCP server for macOS iMessage — read, search, send messages, and retrieve file attachments"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    { name = "Andrew Grant" },
+]
+keywords = ["mcp", "imessage", "macos", "messages", "ai"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Operating System :: MacOS",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Communications :: Chat",
+]
+dependencies = [
+    "fastmcp>=2.0.0",
+    "phonenumbers>=8.13.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
