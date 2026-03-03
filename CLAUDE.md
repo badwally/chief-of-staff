@@ -61,7 +61,7 @@ Check `state/config/tools.yaml` for current state. Currently enabled:
 |-------------|--------|-------|
 | Gmail | `mcp__claude_ai_Gmail` | Claude AI built-in. Authorize at claude.ai Settings > Integrations. |
 | Notion | `notion` | Knowledge base queries and page creation |
-| Dreamhost Email | `email` | IMAP/SMTP for andrew@vicara.io. Config: `~/.config/zerolib/mcp_email_server/config.toml` |
+| Dreamhost Email | `email` | IMAP/SMTP. Config: `~/.config/zerolib/mcp_email_server/config.toml` |
 | VoiceMode | `voicemode` | Whisper STT + Kokoro/OpenAI TTS |
 | iMessage | `mcp/imessage` | Custom MCP. Requires Full Disk Access. |
 
